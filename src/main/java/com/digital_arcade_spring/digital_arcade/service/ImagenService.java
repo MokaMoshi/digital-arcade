@@ -1,6 +1,6 @@
 package com.digital_arcade_spring.digital_arcade.service;
 
-import com.digital_arcade_spring.digital_arcade.dto.ImagenDTO;
+import com.digital_arcade_spring.digital_arcade.DTO.ImagenDTO;
 import com.digital_arcade_spring.digital_arcade.model.Imagen;
 import com.digital_arcade_spring.digital_arcade.model.Item;
 import com.digital_arcade_spring.digital_arcade.repository.ImagenRepository;

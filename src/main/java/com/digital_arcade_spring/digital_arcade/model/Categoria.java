@@ -1,5 +1,7 @@
 package com.digital_arcade_spring.digital_arcade.model;
 
+import java.util.List;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -37,5 +39,5 @@ public class Categoria {
 
     // Conexión hacia la entidad puente 'Categorias'
     @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL)
-    private java.util.List<Categorias> categoriasPuente;
+    private List<Categorias> categoriasPuente;
 }

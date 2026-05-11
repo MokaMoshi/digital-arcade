@@ -17,6 +17,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -50,7 +51,7 @@ public class Item {
 
     // Relación hacia el puente de Categorías
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
-    private java.util.List<Categorias> categoriasPuente;
+    private List<Categorias> categoriasPuente;
 
     // Relación hacia el puente transaccional (Items)
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)

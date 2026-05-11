@@ -1,6 +1,6 @@
 package com.digital_arcade_spring.digital_arcade.service;
 
-import com.digital_arcade_spring.digital_arcade.dto.ItemDTO;
+import com.digital_arcade_spring.digital_arcade.DTO.ItemDTO;
 import com.digital_arcade_spring.digital_arcade.model.Categoria;
 import com.digital_arcade_spring.digital_arcade.model.Categorias;
 import com.digital_arcade_spring.digital_arcade.model.Item;

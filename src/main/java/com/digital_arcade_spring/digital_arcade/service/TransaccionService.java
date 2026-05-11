@@ -1,7 +1,7 @@
 package com.digital_arcade_spring.digital_arcade.service;
 
-import com.digital_arcade_spring.digital_arcade.dto.ItemCompraDTO;
-import com.digital_arcade_spring.digital_arcade.dto.TransaccionDTO;
+import com.digital_arcade_spring.digital_arcade.DTO.ItemCompraDTO;
+import com.digital_arcade_spring.digital_arcade.DTO.TransaccionDTO;
 import com.digital_arcade_spring.digital_arcade.model.Item;
 import com.digital_arcade_spring.digital_arcade.model.Items;
 import com.digital_arcade_spring.digital_arcade.model.MetodoPago;
