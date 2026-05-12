@@ -1,6 +1,6 @@
 package com.digital_arcade_spring.digital_arcade.controller;
 
-import com.digital_arcade_spring.digital_arcade.dto.MetodoPagoDTO;
+import com.digital_arcade_spring.digital_arcade.DTO.MetodoPagoDTO;
 import com.digital_arcade_spring.digital_arcade.model.MetodoPago;
 import com.digital_arcade_spring.digital_arcade.service.MetodoPagoService;
 import jakarta.validation.Valid;

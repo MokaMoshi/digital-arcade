@@ -1,15 +1,17 @@
 package com.digital_arcade_spring.digital_arcade.service;
 
-import com.digital_arcade_spring.digital_arcade.dto.MetodoPagoDTO;
-import com.digital_arcade_spring.digital_arcade.model.MetodoPago;
-import com.digital_arcade_spring.digital_arcade.repository.MetodoPagoRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.digital_arcade_spring.digital_arcade.DTO.MetodoPagoDTO;
+import com.digital_arcade_spring.digital_arcade.model.MetodoPago;
+import com.digital_arcade_spring.digital_arcade.repository.MetodoPagoRepository;
+
 @Service
+@Slf4j
 public class MetodoPagoService {
 
     private static final Logger log = LoggerFactory.getLogger(MetodoPagoService.class);

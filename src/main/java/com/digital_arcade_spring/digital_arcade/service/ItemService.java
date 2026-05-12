@@ -1,6 +1,6 @@
 package com.digital_arcade_spring.digital_arcade.service;
 
-import com.digital_arcade_spring.digital_arcade.dto.ItemDTO;
+import com.digital_arcade_spring.digital_arcade.DTO.ItemDTO;
 import com.digital_arcade_spring.digital_arcade.model.Categoria;
 import com.digital_arcade_spring.digital_arcade.model.Categorias;
 import com.digital_arcade_spring.digital_arcade.model.Item;
@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 
 @Service
+@slf4j
 public class ItemService {
 
     private static final Logger log = LoggerFactory.getLogger(ItemService.class);
@@ -33,13 +34,13 @@ public class ItemService {
         log.info("Registrando nuevo ítem en la tienda de la comunidad: {}", dto.getNombre());
 
         try {
-            // 1. Crear la entidad principal Item
+       
             Item item = new Item();
             item.setNombre(dto.getNombre());
             item.setPrecio(dto.getPrecio());
             item.setStock(dto.getStock());
             
-            // Inicializar listas vacías para evitar problemas de referencias nulas
+       
             item.setImagenes(new ArrayList<>());
             item.setCategoriasPuente(new ArrayList<>());
             item.setItemsPuente(new ArrayList<>());
@@ -47,7 +48,7 @@ public class ItemService {
             Item itemGuardado = itemRepository.save(item);
             log.info("Ítem registrado exitosamente en BD con ID: {}", itemGuardado.getId());
 
-            // 2. Enlazar con el puente 'categorias' si se enviaron IDs
+            
             if (dto.getCategoriaIds() != null && !dto.getCategoriaIds().isEmpty()) {
                 for (Integer catId : dto.getCategoriaIds()) {
                     Categoria cat = categoriaRepository.findById(catId)
