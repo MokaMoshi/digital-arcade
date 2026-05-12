@@ -32,6 +32,10 @@ public class Imagen {
     private String altText;
 
     @ManyToOne
-    @JoinColumn(name = "item_id", nullable = false)
+    @JoinColumn(name = "item_id", nullable = true)
     private Item item;
+
+    @ManyToOne
+    @JoinColumn(name = "juego_id", nullable = true)
+    private Juego juego;
 }

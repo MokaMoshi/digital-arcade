@@ -37,7 +37,6 @@ public class Categoria {
     @Column(nullable = false, length = 255)
     private String descripcion;
 
-    // Conexión hacia la entidad puente 'Categorias'
     @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL)
     private List<Categorias> categoriasPuente;
 }

@@ -33,6 +33,10 @@ public class Transaccion {
     @JoinColumn(name = "metodo_pago_id", nullable = false)
     private MetodoPago metodoPago;
 
+    @ManyToOne
+    @JoinColumn(name = "usuario_id", nullable = false)
+    private Usuario usuario;
+
     @NotNull(message = "El total es obligatorio")
     @DecimalMin(value = "0.1", message = "El total debe ser mayor a 0")
     @Column(nullable = false)
@@ -41,7 +45,6 @@ public class Transaccion {
     @Column(name = "fecha_transaccion", nullable = false)
     private LocalDateTime fechaTransaccion = LocalDateTime.now();
 
-    // Relación hacia el detalle puente 'Items'
     @OneToMany(mappedBy = "transaccion", cascade = CascadeType.ALL)
     private java.util.List<Items> itemsPuente;
 }

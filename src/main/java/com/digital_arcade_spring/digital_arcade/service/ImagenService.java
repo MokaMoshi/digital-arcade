@@ -3,19 +3,18 @@ package com.digital_arcade_spring.digital_arcade.service;
 import com.digital_arcade_spring.digital_arcade.DTO.ImagenDTO;
 import com.digital_arcade_spring.digital_arcade.model.Imagen;
 import com.digital_arcade_spring.digital_arcade.model.Item;
+import com.digital_arcade_spring.digital_arcade.model.Juego;
 import com.digital_arcade_spring.digital_arcade.repository.ImagenRepository;
 import com.digital_arcade_spring.digital_arcade.repository.ItemRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.digital_arcade_spring.digital_arcade.repository.JuegoRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@slf4j
+@Slf4j
 public class ImagenService {
-
-    private static final Logger log = LoggerFactory.getLogger(ImagenService.class);
 
     @Autowired
     private ImagenRepository imagenRepository;
@@ -23,16 +22,39 @@ public class ImagenService {
     @Autowired
     private ItemRepository itemRepository;
 
+    @Autowired
+    private JuegoRepository juegoRepository;
+
     @Transactional
     public Imagen agregarImagen(ImagenDTO dto) {
-        log.info("Agregando recurso visual para ítem ID: {}", dto.getItemId());
-        Item item = itemRepository.findById(dto.getItemId())
-                .orElseThrow(() -> new RuntimeException("Ítem principal no existe en la BD"));
+        boolean tieneItem = dto.getItemId() != null;
+        boolean tieneJuego = dto.getJuegoId() != null;
+
+        if (tieneItem && tieneJuego) {
+            throw new RuntimeException("Indica solo itemId o solo juegoId, no ambos");
+        }
+        if (!tieneItem && !tieneJuego) {
+            throw new RuntimeException("Debes enviar itemId (tienda) o juegoId (catálogo)");
+        }
 
         Imagen img = new Imagen();
         img.setUrl(dto.getUrl());
         img.setAltText(dto.getAltText());
-        img.setItem(item);
+
+        if (tieneItem) {
+            log.info("Guardando imagen para ítem id {}", dto.getItemId());
+            Item item = itemRepository.findById(dto.getItemId())
+                    .orElseThrow(() -> new RuntimeException("Ítem no existe en la BD"));
+            img.setItem(item);
+            img.setJuego(null);
+        } else {
+            log.info("Guardando imagen para juego id {}", dto.getJuegoId());
+            Juego juego = juegoRepository.findById(dto.getJuegoId())
+                    .orElseThrow(() -> new RuntimeException("Juego no existe en la BD"));
+            img.setJuego(juego);
+            img.setItem(null);
+        }
+
         return imagenRepository.save(img);
     }
 }

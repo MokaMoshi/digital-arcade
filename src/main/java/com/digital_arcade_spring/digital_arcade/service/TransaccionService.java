@@ -12,9 +12,9 @@ import com.digital_arcade_spring.digital_arcade.repository.ItemsRepository;
 import com.digital_arcade_spring.digital_arcade.repository.MetodoPagoRepository;
 import com.digital_arcade_spring.digital_arcade.repository.TransaccionRepository;
 import com.digital_arcade_spring.digital_arcade.repository.UsuarioRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -22,10 +22,8 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 
 @Service
-@slf4j
+@Slf4j
 public class TransaccionService {
-
-    private static final Logger log = LoggerFactory.getLogger(TransaccionService.class);
 
     @Autowired
     private TransaccionRepository transaccionRepository;
@@ -45,18 +43,24 @@ public class TransaccionService {
     @Autowired
     private WebClient.Builder webClientBuilder;
 
+    @Value("${usuarios.api.url:http://localhost:8081/api/usuarios/existe/}")
+    private String urlApiUsuarios;
+
+    @Value("${usuarios.api.timeout-segundos:5}")
+    private int timeoutApiUsuariosSegundos;
+
     @Transactional
     public Transaccion procesarTransaccion(TransaccionDTO dto) {
         log.info("Iniciando transacción en tienda comunitaria para Usuario ID: {}", dto.getUsuarioId());
 
         try {
-            // 1. REQUISITO CRÍTICO DE RÚBRICA: Consumo remoto con timeout (IE 2.4.3)
+            String url = urlApiUsuarios + dto.getUsuarioId();
             Boolean usuarioValido = webClientBuilder.build()
                     .get()
-                    .uri("http://localhost:8081/api/usuarios/existe/" + dto.getUsuarioId())
+                    .uri(url)
                     .retrieve()
                     .bodyToMono(Boolean.class)
-                    .timeout(Duration.ofSeconds(5))
+                    .timeout(Duration.ofSeconds(timeoutApiUsuariosSegundos))
                     .onErrorReturn(false)
                     .block();
 
@@ -76,15 +80,14 @@ public class TransaccionService {
 
             
             Transaccion transaccion = new Transaccion();
-            transaccion.setUsuarioId(dto.getUsuarioId());
+            transaccion.setUsuario(usuarioLocal);
             transaccion.setMetodoPago(metodo);
             transaccion.setTotal(dto.getTotal());
             transaccion.setFechaTransaccion(LocalDateTime.now());
 
             Transaccion guardada = transaccionRepository.save(transaccion);
 
-            // 4. Poblar la TABLA PUENTE de 3 vías 'items'
-            for (ItemCompraDTO detalle : dto.getDetallesPuente()) {
+            for (ItemCompraDTO detalle : dto.getItems()) {
                 Item itemDb = itemRepository.findById(detalle.getItemId())
                         .orElseThrow(() -> new RuntimeException("El ítem ID " + detalle.getItemId() + " no existe en la tienda"));
 
@@ -92,11 +95,9 @@ public class TransaccionService {
                     throw new RuntimeException("Stock insuficiente para el ítem comunitario: " + itemDb.getNombre());
                 }
 
-                // Descontar stock
                 itemDb.setStock(itemDb.getStock() - detalle.getCantidad());
                 itemRepository.save(itemDb);
 
-                // Insertar en el puente que une Usuario, Transaccion e Item
                 Items puente = new Items();
                 puente.setCantidad(detalle.getCantidad());
                 puente.setUsuario(usuarioLocal);

@@ -1,5 +1,6 @@
 package com.digital_arcade_spring.digital_arcade.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -39,7 +40,7 @@ public class Juego {
     @Column(nullable = false, length = 100)
     private String desarrollador;
 
-    @OneToMany(mappedBy = "juego")
+    @OneToMany(mappedBy = "juego", cascade = CascadeType.ALL)
     private java.util.List<Imagen> imagenes;
 
 }

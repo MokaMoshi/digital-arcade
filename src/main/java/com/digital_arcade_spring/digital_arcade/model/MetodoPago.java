@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "metodogit add **/MetodoPago.javapago")
+@Table(name = "metodos_pago")
 public class MetodoPago {
 
     @Id

@@ -10,6 +10,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ImagenDTO {
 
+    // Solo uno de los dos: ítem de tienda o juego del catálogo
+    private Integer itemId;
+    private Integer juegoId;
+
     @NotBlank(message = "La URL de la imagen es obligatoria")
     private String url;
 

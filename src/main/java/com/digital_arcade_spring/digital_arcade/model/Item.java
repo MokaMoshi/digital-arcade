@@ -45,15 +45,12 @@ public class Item {
     @Column(nullable = false)
     private Integer stock;
 
-    // Relación con sus imágenes
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
     private java.util.List<Imagen> imagenes;
 
-    // Relación hacia el puente de Categorías
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
     private List<Categorias> categoriasPuente;
 
-    // Relación hacia el puente transaccional (Items)
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
     private java.util.List<Items> itemsPuente;
 }

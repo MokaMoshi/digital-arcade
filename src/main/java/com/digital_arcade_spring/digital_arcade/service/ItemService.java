@@ -7,18 +7,15 @@ import com.digital_arcade_spring.digital_arcade.model.Item;
 import com.digital_arcade_spring.digital_arcade.repository.CategoriaRepository;
 import com.digital_arcade_spring.digital_arcade.repository.CategoriasRepository; // Repositorio del puente
 import com.digital_arcade_spring.digital_arcade.repository.ItemRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 
 @Service
-@slf4j
+@Slf4j
 public class ItemService {
-
-    private static final Logger log = LoggerFactory.getLogger(ItemService.class);
 
     @Autowired
     private ItemRepository itemRepository;

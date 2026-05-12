@@ -30,7 +30,6 @@ public class Items {
     @Column(nullable = false)
     private Integer cantidad;
 
-    // Conexión directa con Usuario (asumiendo que la entidad Usuario está en este microservicio)
     @ManyToOne
     @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
