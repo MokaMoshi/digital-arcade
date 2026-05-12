@@ -14,6 +14,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/transacciones")
+@Slf4j
 public class TransaccionController {
 
     @Autowired

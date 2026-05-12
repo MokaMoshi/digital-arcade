@@ -22,6 +22,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 
 @Service
+@slf4j
 public class TransaccionService {
 
     private static final Logger log = LoggerFactory.getLogger(TransaccionService.class);
@@ -67,13 +68,13 @@ public class TransaccionService {
             Usuario usuarioLocal = usuarioRepository.findById(dto.getUsuarioId())
                     .orElseThrow(() -> new RuntimeException("Usuario comunitario no sincronizado en BD local"));
 
-            // 2. Validar método de pago
+   
             MetodoPago metodo = metodoPagoRepository.findById(dto.getMetodoPagoId())
                     .orElseThrow(() -> new RuntimeException("Método de pago inexistente"));
 
             if (!metodo.isActivo()) throw new RuntimeException("El método de pago no está activo actualmente");
 
-            // 3. Guardar cabecera de la Transacción
+            
             Transaccion transaccion = new Transaccion();
             transaccion.setUsuarioId(dto.getUsuarioId());
             transaccion.setMetodoPago(metodo);
