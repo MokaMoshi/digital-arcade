@@ -1,5 +1,8 @@
 package com.digital_arcade_spring.digital_arcade.DTO;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
@@ -10,8 +13,6 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.math.BigDecimal;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -30,11 +31,9 @@ public class ItemDTO {
     @Min(value = 0, message = "El stock no puede ser negativo")
     private Integer stock;
 
-    // Recibe la lista de IDs de categorías para enlazarlas en la tabla puente 'Categorias'
     @NotEmpty(message = "El ítem debe pertenecer al menos a una categoría")
     private List<Integer> categoriaIds;
 
-    // Lista opcional de imágenes para crearlas en cascada
     @Valid
     private List<ImagenDTO> imagenes;
 }
